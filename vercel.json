@@ -1,40 +1,24 @@
 {
   "version": 2,
   "name": "veilux-website",
-  "builds": [
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "rewrites": [
     {
-      "src": "**/*.html",
-      "use": "@vercel/static"
+      "source": "/whitepaper",
+      "destination": "/whitepaper.html"
     },
     {
-      "src": "assets/**/*",
-      "use": "@vercel/static"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/",
-      "dest": "/index.html"
+      "source": "/apps",
+      "destination": "/apps.html"
     },
     {
-      "src": "/whitepaper",
-      "dest": "/whitepaper.html"
+      "source": "/applications",
+      "destination": "/apps.html"
     },
     {
-      "src": "/apps",
-      "dest": "/apps.html"
-    },
-    {
-      "src": "/applications",
-      "dest": "/apps.html"
-    },
-    {
-      "src": "/contact",
-      "dest": "/contact.html"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/$1"
+      "source": "/contact",
+      "destination": "/contact.html"
     }
   ],
   "headers": [
@@ -68,7 +52,5 @@
         }
       ]
     }
-  ],
-  "cleanUrls": true,
-  "trailingSlash": false
+  ]
 }
