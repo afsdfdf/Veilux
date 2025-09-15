@@ -5,7 +5,7 @@
   "main": "index.html",
   "scripts": {
     "dev": "python -m http.server 3000",
-    "build": "echo 'No build required for static site'",
+    "build": "node build.js",
     "start": "python -m http.server 8080",
     "deploy": "vercel --prod"
   },

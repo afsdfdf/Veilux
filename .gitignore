@@ -111,6 +111,9 @@ Thumbs.db
 # Vercel
 .vercel
 
+# Build output
+dist/
+
 # Local development
 *.log
 .cache/
