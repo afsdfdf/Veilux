@@ -1,0 +1,19 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://veilux.network/sitemap.xml
+
+# Disallow sensitive directories
+Disallow: /assets/
+Disallow: /.vercel/
+Disallow: /node_modules/
+
+# Allow specific asset types
+Allow: /assets/css/
+Allow: /assets/js/
+Allow: /assets/img/
+Allow: /assets/fonts/
+
+# Crawl delay (optional)
+Crawl-delay: 1

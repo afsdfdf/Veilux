@@ -1,0 +1,35 @@
+{
+  "name": "veilux-website",
+  "version": "1.0.0",
+  "description": "Veilux Network - Privacy-Centric Web3 Infrastructure Platform",
+  "main": "index.html",
+  "scripts": {
+    "dev": "python -m http.server 3000",
+    "build": "echo 'Static site - no build required'",
+    "start": "python -m http.server 8080",
+    "deploy": "vercel --prod"
+  },
+  "keywords": [
+    "veilux",
+    "web3",
+    "privacy",
+    "blockchain",
+    "cryptocurrency",
+    "defi",
+    "encryption",
+    "zero-knowledge"
+  ],
+  "author": "Veilux Team",
+  "license": "MIT",
+  "homepage": "https://veilux.network",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/veilux/website.git"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "devDependencies": {
+    "vercel": "^32.0.0"
+  }
+}
