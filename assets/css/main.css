@@ -1,9 +1,9 @@
 /*-----------------------------------------------------------------------------------
 
-    Project Name: Coindox - ICO & Crypto Landing HTML Template
+    Project Name: Veilux - ICO & Crypto Landing HTML Template
     Author: XpressBuddy -->> (https://themeforest.net/user/xpressbuddy)
     Support: wasimmia.info@gmail.com
-    Description: Coindox - ICO & Crypto Landing HTML Template
+    Description: Veilux - ICO & Crypto Landing HTML Template
     Developer: Mohammad Wasim Mia -> wasimmia.info@gmail.com
     Version: 1.0
 
@@ -2690,6 +2690,53 @@ h6 {
 
 .side-mobile-menu .header__logo {
   display: inline-block; }
+
+/* Logo Container Styles */
+.logo-container {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  gap: 12px; }
+
+.logo-image {
+  height: 40px;
+  width: auto;
+  object-fit: contain; }
+
+.logo-text {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--color-white);
+  font-family: var(--font-heading);
+  letter-spacing: -0.5px;
+  margin: 0; }
+
+/* Mobile Logo Styles */
+.mobile-logo-container {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  gap: 10px; }
+
+.mobile-logo-image {
+  height: 35px;
+  width: auto;
+  object-fit: contain; }
+
+.mobile-logo-text {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--color-white);
+  font-family: var(--font-heading);
+  letter-spacing: -0.5px;
+  margin: 0; }
+
+/* Responsive adjustments */
+@media (max-width: 767px) {
+  .logo-image {
+    height: 35px; }
+  .logo-text {
+    font-size: 20px; } }
 
 .header-mobile-search input {
   border: 2px solid rgba(150, 144, 162, 0.09);
