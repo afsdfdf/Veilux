@@ -9,7 +9,7 @@ if (!fs.existsSync('dist')) {
 }
 
 // Copy HTML files
-const htmlFiles = ['index.html', 'whitepaper.html', 'apps.html', 'contact.html'];
+const htmlFiles = ['index.html', 'whitepaper.html', 'apps.html', 'contact.html', 'login.html', 'dashboard.html'];
 htmlFiles.forEach(file => {
   if (fs.existsSync(file)) {
     fs.copyFileSync(file, path.join('dist', file));
