@@ -54,9 +54,9 @@
         }
         th {
             font-size: 18px;
-            padding: 17px 50px;
+            padding: 12px 50px;
             @include respond(lg) {
-                padding: 17px 20px;
+                padding: 12px 20px;
             }
         }
     }
@@ -73,9 +73,9 @@
         tr {
             &:first-child {
                 td {
-                    padding-top: 46px;
+                    padding-top: 30px;
                     @include respond(xs) {
-                        padding-top: 12px;
+                        padding-top: 8px;
                     }
                 }
             }
@@ -83,9 +83,9 @@
                 background-color: #03050E;
             }
             td {
-                padding: 12px 50px;
+                padding: 8px 50px;
                 @include respond(lg) {
-                    padding: 12px 20px;
+                    padding: 8px 20px;
                 }
                 &:first-child {
                     text-align: left;

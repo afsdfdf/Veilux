@@ -6306,10 +6306,10 @@ blockquote {
       padding-top: 50px; }
     .advantages-table thead th {
       font-size: 18px;
-      padding: 17px 50px; }
+      padding: 12px 50px; }
       @media (max-width: 1199px) {
         .advantages-table thead th {
-          padding: 17px 20px; } }
+          padding: 12px 20px; } }
   .advantages-table thead tr th,
   .advantages-table tbody tr td {
     font-size: 18px;
@@ -6320,17 +6320,17 @@ blockquote {
       .advantages-table tbody tr td {
         font-size: 16px; } }
   .advantages-table tbody tr:first-child td {
-    padding-top: 46px; }
+    padding-top: 30px; }
     @media (max-width: 767px) {
       .advantages-table tbody tr:first-child td {
-        padding-top: 12px; } }
+        padding-top: 8px; } }
   .advantages-table tbody tr:nth-child(even) {
     background-color: #03050E; }
   .advantages-table tbody tr td {
-    padding: 12px 50px; }
+    padding: 8px 50px; }
     @media (max-width: 1199px) {
       .advantages-table tbody tr td {
-        padding: 12px 20px; } }
+        padding: 8px 20px; } }
     .advantages-table tbody tr td:first-child {
       text-align: left; }
       @media (max-width: 767px) {
