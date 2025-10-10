@@ -11,7 +11,6 @@
     <link rel="stylesheet" href="assets/css/fontawesome.css">
     <link rel="stylesheet" href="assets/css/animate.css">
     <link rel="stylesheet" href="assets/css/main.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
     
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -645,14 +644,14 @@
             </div>
             
             <ul class="sidebar-menu">
-                <li><a href="#" class="active" onclick="showSection('dashboard')"><i class="fas fa-th-large"></i><span>Dashboard</span></a></li>
-                <li><a href="#" onclick="showSection('wallet')"><i class="fas fa-wallet"></i><span>Wallet</span></a></li>
-                <li><a href="#" onclick="showSection('privacy')"><i class="fas fa-shield-alt"></i><span>Privacy Shield</span></a></li>
-                <li><a href="#" onclick="showSection('swap')"><i class="fas fa-exchange-alt"></i><span>Private Swap</span></a></li>
-                <li><a href="#" onclick="showSection('contracts')"><i class="fas fa-file-contract"></i><span>Smart Contracts</span></a></li>
-                <li><a href="#" onclick="showSection('dao')"><i class="fas fa-users"></i><span>DAO</span></a></li>
-                <li><a href="#" onclick="showSection('analytics')"><i class="fas fa-chart-line"></i><span>Analytics</span></a></li>
-                <li><a href="#" onclick="showSection('settings')"><i class="fas fa-cog"></i><span>Settings</span></a></li>
+                <li><a href="#" class="active" onclick="showSection('dashboard', this); return false;"><i class="fas fa-th-large"></i><span>Dashboard</span></a></li>
+                <li><a href="#" onclick="showSection('wallet', this); return false;"><i class="fas fa-wallet"></i><span>Wallet</span></a></li>
+                <li><a href="#" onclick="showSection('privacy', this); return false;"><i class="fas fa-shield-alt"></i><span>Privacy Shield</span></a></li>
+                <li><a href="#" onclick="showSection('swap', this); return false;"><i class="fas fa-exchange-alt"></i><span>Private Swap</span></a></li>
+                <li><a href="#" onclick="showSection('contracts', this); return false;"><i class="fas fa-file-contract"></i><span>Smart Contracts</span></a></li>
+                <li><a href="#" onclick="showSection('dao', this); return false;"><i class="fas fa-users"></i><span>DAO</span></a></li>
+                <li><a href="#" onclick="showSection('analytics', this); return false;"><i class="fas fa-chart-line"></i><span>Analytics</span></a></li>
+                <li><a href="#" onclick="showSection('settings', this); return false;"><i class="fas fa-cog"></i><span>Settings</span></a></li>
             </ul>
             
             <div class="user-section">
@@ -740,10 +739,10 @@
                 <div class="section-header">
                     <h2>Portfolio Performance</h2>
                     <div class="tab-buttons">
-                        <button class="tab-btn active" onclick="updateChart('7d')">7D</button>
-                        <button class="tab-btn" onclick="updateChart('1m')">1M</button>
-                        <button class="tab-btn" onclick="updateChart('3m')">3M</button>
-                        <button class="tab-btn" onclick="updateChart('1y')">1Y</button>
+                        <button class="tab-btn active" onclick="updateChart('7d', this)">7D</button>
+                        <button class="tab-btn" onclick="updateChart('1m', this)">1M</button>
+                        <button class="tab-btn" onclick="updateChart('3m', this)">3M</button>
+                        <button class="tab-btn" onclick="updateChart('1y', this)">1Y</button>
                     </div>
                 </div>
                 <canvas id="portfolioChart" height="80"></canvas>
@@ -1008,15 +1007,19 @@
         }
         
         // Update chart
-        function updateChart(period) {
+        function updateChart(period, element) {
             // Update active tab
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
+            if (element) {
+                element.classList.add('active');
+            }
             
             // Generate random data for demo
             const newData = Array.from({length: 7}, () => Math.floor(Math.random() * 10000) + 15000);
-            chart.data.datasets[0].data = newData;
-            chart.update('active');
+            if (chart && chart.data) {
+                chart.data.datasets[0].data = newData;
+                chart.update('active');
+            }
         }
         
         // Show modal
@@ -1090,21 +1093,33 @@
         }
         
         // Show section
-        function showSection(section) {
+        function showSection(section, element) {
             document.querySelectorAll('.sidebar-menu a').forEach(a => a.classList.remove('active'));
-            event.target.classList.add('active');
+            if (element) {
+                element.classList.add('active');
+            }
             showNotification(`Navigating to ${section} section...`, 'info');
+            // Close mobile menu if open
+            if (window.innerWidth <= 768) {
+                document.getElementById('sidebar').classList.remove('mobile-active');
+            }
         }
         
         // Initialize on load
-        window.addEventListener('load', () => {
-            initChart();
+        window.addEventListener('DOMContentLoaded', () => {
+            // Wait for Chart.js to load
+            if (typeof Chart !== 'undefined') {
+                initChart();
+            }
             // Animate all stat cards after a short delay
             setTimeout(() => {
                 document.querySelectorAll('.stat-card').forEach(card => animateStatCard(card));
             }, 500);
         });
     </script>
+    
+    <!-- Chart.js Library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 </body>
 </html>
 
