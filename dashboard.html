@@ -889,12 +889,28 @@
         </div>
     </div>
 
+    <!-- Chart.js Library - Load first -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    
     <script>
         // Initialize Charts
         let chart;
-        const ctx = document.getElementById('portfolioChart').getContext('2d');
+        let ctx;
         
         function initChart() {
+            // Get canvas context
+            const canvas = document.getElementById('portfolioChart');
+            if (!canvas) {
+                console.error('Canvas element not found');
+                return;
+            }
+            
+            ctx = canvas.getContext('2d');
+            if (!ctx) {
+                console.error('Cannot get 2d context');
+                return;
+            }
+            
             const gradient = ctx.createLinearGradient(0, 0, 0, 400);
             gradient.addColorStop(0, 'rgba(138, 43, 226, 0.3)');
             gradient.addColorStop(1, 'rgba(138, 43, 226, 0)');
@@ -1109,17 +1125,21 @@
         window.addEventListener('DOMContentLoaded', () => {
             // Wait for Chart.js to load
             if (typeof Chart !== 'undefined') {
-                initChart();
+                try {
+                    initChart();
+                } catch (error) {
+                    console.error('Error initializing chart:', error);
+                }
+            } else {
+                console.error('Chart.js not loaded');
             }
+            
             // Animate all stat cards after a short delay
             setTimeout(() => {
                 document.querySelectorAll('.stat-card').forEach(card => animateStatCard(card));
             }, 500);
         });
     </script>
-    
-    <!-- Chart.js Library -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 </body>
 </html>
 
