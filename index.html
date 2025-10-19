@@ -633,7 +633,7 @@
                         </div>
                         <div class="col-xl-7 col-lg-6 mt-30">
                             <div class="token-distribution__img text-lg-end wow fadeInRight" data-wow-delay="100ms">
-                                <img src="assets/img/token/token-distribution.png" alt="">
+                                <canvas id="tokenDistributionChart" style="max-width: 600px; max-height: 600px; margin: 0 auto;"></canvas>
                             </div>
                         </div>
                     </div>
@@ -956,6 +956,126 @@
     <script src="assets/js/scrollspy.js"></script>
     <script src="assets/js/main.js"></script>
 
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    
+    <!-- Token Distribution Chart -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const ctx = document.getElementById('tokenDistributionChart');
+            if (ctx) {
+                const data = {
+                    labels: [
+                        'Community & Ecosystem (40%)',
+                        'Team & Advisors (18%)',
+                        'Private Sale (15%)',
+                        'Treasury (10%)',
+                        'Development (7%)',
+                        'Public Sale (5%)',
+                        'Liquidity (5%)'
+                    ],
+                    datasets: [{
+                        data: [40, 18, 15, 10, 7, 5, 5],
+                        backgroundColor: [
+                            '#2FF4E3',  // Cyan - Community
+                            '#1ECFBF',  // Teal - Team
+                            '#19B3A6',  // Dark Teal - Private Sale
+                            '#14978D',  // Darker Teal - Treasury
+                            '#0F7B74',  // Even Darker - Development
+                            '#4A5FFF',  // Blue - Public Sale
+                            '#6B7FFF'   // Light Blue - Liquidity
+                        ],
+                        borderColor: '#0A1128',
+                        borderWidth: 3,
+                        hoverOffset: 15
+                    }]
+                };
+
+                const config = {
+                    type: 'doughnut',
+                    data: data,
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: true,
+                        plugins: {
+                            legend: {
+                                display: true,
+                                position: 'right',
+                                labels: {
+                                    color: '#ffffff',
+                                    font: {
+                                        size: 14,
+                                        family: "'Poppins', sans-serif"
+                                    },
+                                    padding: 15,
+                                    usePointStyle: true,
+                                    pointStyle: 'circle'
+                                }
+                            },
+                            tooltip: {
+                                backgroundColor: 'rgba(27, 37, 79, 0.95)',
+                                titleColor: '#2FF4E3',
+                                bodyColor: '#ffffff',
+                                borderColor: '#2FF4E3',
+                                borderWidth: 1,
+                                padding: 12,
+                                displayColors: true,
+                                callbacks: {
+                                    label: function(context) {
+                                        const label = context.label || '';
+                                        const value = context.parsed || 0;
+                                        const total = 210;
+                                        const amount = (value * total / 100).toFixed(1);
+                                        return [
+                                            label,
+                                            `${value}% (${amount}B tokens)`
+                                        ];
+                                    }
+                                }
+                            }
+                        },
+                        cutout: '65%',
+                        animation: {
+                            animateRotate: true,
+                            animateScale: true,
+                            duration: 2000,
+                            easing: 'easeInOutQuart'
+                        }
+                    },
+                    plugins: [{
+                        id: 'centerText',
+                        beforeDraw: function(chart) {
+                            const width = chart.width;
+                            const height = chart.height;
+                            const ctx = chart.ctx;
+                            ctx.restore();
+                            
+                            const fontSize = (height / 160).toFixed(2);
+                            ctx.font = fontSize + "em 'Poppins', sans-serif";
+                            ctx.textBaseline = "middle";
+                            ctx.fillStyle = "#ffffff";
+                            
+                            const text = "210,000,000,000";
+                            const textX = Math.round((width - ctx.measureText(text).width) / 2);
+                            const textY = height / 2 - 10;
+                            ctx.fillText(text, textX, textY);
+                            
+                            ctx.font = (fontSize * 0.5) + "em 'Poppins', sans-serif";
+                            ctx.fillStyle = "#2FF4E3";
+                            const subText = "Total Supply";
+                            const subTextX = Math.round((width - ctx.measureText(subText).width) / 2);
+                            const subTextY = height / 2 + 20;
+                            ctx.fillText(subText, subTextX, subTextY);
+                            
+                            ctx.save();
+                        }
+                    }]
+                };
+
+                new Chart(ctx, config);
+            }
+        });
+    </script>
     
 </body>
 
