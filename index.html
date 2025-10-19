@@ -968,13 +968,13 @@
             if (ctx) {
                 // Token distribution data
                 const tokenData = [
-                    { name: 'Community & Ecosystem', percentage: 40, amount: 84, vesting: '4 year linear', color: '#2FF4E3' },
-                    { name: 'Team & Advisors', percentage: 18, amount: 37.8, vesting: '4 year cliff', color: '#1DB8AB' },
-                    { name: 'Private Sale', percentage: 15, amount: 31.5, vesting: '2 year 6 month', color: '#1A9D92' },
-                    { name: 'Treasury', percentage: 10, amount: 21, vesting: '5 year linear', color: '#178279' },
-                    { name: 'Development', percentage: 7, amount: 14.7, vesting: '3 year linear', color: '#146760' },
-                    { name: 'Public Sale', percentage: 5, amount: 10.5, vesting: 'Unlocked immediately', color: '#4A6FFF' },
-                    { name: 'Liquidity', percentage: 5, amount: 10.5, vesting: 'Unlocked immediately', color: '#7B8EFF' }
+                    { name: 'Community & Ecosystem', percentage: 40, amount: 84, initialUnlock: 15, vesting: '4 year linear', color: '#2FF4E3' },
+                    { name: 'Team & Advisors', percentage: 18, amount: 37.8, initialUnlock: 10, vesting: '4 year cliff', color: '#1DB8AB' },
+                    { name: 'Private Sale', percentage: 15, amount: 31.5, initialUnlock: 20, vesting: '2 year 6 month', color: '#1A9D92' },
+                    { name: 'Treasury', percentage: 10, amount: 21, initialUnlock: 10, vesting: '5 year linear', color: '#178279' },
+                    { name: 'Development', percentage: 7, amount: 14.7, initialUnlock: 15, vesting: '3 year linear', color: '#146760' },
+                    { name: 'Public Sale', percentage: 5, amount: 10.5, initialUnlock: 30, vesting: 'Immediate', color: '#4A6FFF' },
+                    { name: 'Liquidity', percentage: 5, amount: 10.5, initialUnlock: 25, vesting: 'Immediate', color: '#7B8EFF' }
                 ];
 
                 const data = {
@@ -1069,6 +1069,7 @@
                                         return [
                                             `Percentage: ${item.percentage}%`,
                                             `Amount: ${item.amount}B tokens`,
+                                            `Initial Unlock: ${item.initialUnlock}%`,
                                             `Vesting: ${item.vesting}`
                                         ];
                                     }
@@ -1101,8 +1102,9 @@
                                 <div style="width: 12px; height: 12px; border-radius: 50%; background: ${item.color}; flex-shrink: 0;"></div>
                                 <div style="flex: 1;">
                                     <div style="color: #ffffff; font-size: 14px; font-weight: 600; margin-bottom: 2px;">${item.name}</div>
-                                    <div style="color: #2FF4E3; font-size: 13px; font-weight: 500;">${item.percentage}%</div>
-                                    <div style="color: rgba(255, 255, 255, 0.6); font-size: 11px; margin-top: 2px;">${item.vesting}</div>
+                                    <div style="color: #2FF4E3; font-size: 13px; font-weight: 500;">${item.percentage}% (${item.amount}B)</div>
+                                    <div style="color: rgba(255, 255, 255, 0.8); font-size: 11px; margin-top: 2px;">Initial: ${item.initialUnlock}%</div>
+                                    <div style="color: rgba(255, 255, 255, 0.6); font-size: 11px;">${item.vesting}</div>
                                 </div>
                             </div>
                         `).join('')}
