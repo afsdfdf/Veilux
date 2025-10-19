@@ -633,7 +633,9 @@
                         </div>
                         <div class="col-xl-7 col-lg-6 mt-30">
                             <div class="token-distribution__img text-lg-end wow fadeInRight" data-wow-delay="100ms">
-                                <canvas id="tokenDistributionChart" style="max-width: 600px; max-height: 600px; margin: 0 auto;"></canvas>
+                                <div id="tokenDistributionContainer" style="position: relative; max-width: 650px; margin: 0 auto;">
+                                    <canvas id="tokenDistributionChart"></canvas>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -964,31 +966,58 @@
         document.addEventListener('DOMContentLoaded', function() {
             const ctx = document.getElementById('tokenDistributionChart');
             if (ctx) {
+                // Token distribution data
+                const tokenData = [
+                    { name: 'Community & Ecosystem', percentage: 40, amount: 84, vesting: '4 year linear', color: '#2FF4E3' },
+                    { name: 'Team & Advisors', percentage: 18, amount: 37.8, vesting: '4 year cliff', color: '#1DB8AB' },
+                    { name: 'Private Sale', percentage: 15, amount: 31.5, vesting: '2 year 6 month', color: '#1A9D92' },
+                    { name: 'Treasury', percentage: 10, amount: 21, vesting: '5 year linear', color: '#178279' },
+                    { name: 'Development', percentage: 7, amount: 14.7, vesting: '3 year linear', color: '#146760' },
+                    { name: 'Public Sale', percentage: 5, amount: 10.5, vesting: 'Unlocked immediately', color: '#4A6FFF' },
+                    { name: 'Liquidity', percentage: 5, amount: 10.5, vesting: 'Unlocked immediately', color: '#7B8EFF' }
+                ];
+
                 const data = {
-                    labels: [
-                        'Community & Ecosystem (40%)',
-                        'Team & Advisors (18%)',
-                        'Private Sale (15%)',
-                        'Treasury (10%)',
-                        'Development (7%)',
-                        'Public Sale (5%)',
-                        'Liquidity (5%)'
-                    ],
+                    labels: tokenData.map(item => item.name),
                     datasets: [{
-                        data: [40, 18, 15, 10, 7, 5, 5],
-                        backgroundColor: [
-                            '#2FF4E3',  // Cyan - Community
-                            '#1ECFBF',  // Teal - Team
-                            '#19B3A6',  // Dark Teal - Private Sale
-                            '#14978D',  // Darker Teal - Treasury
-                            '#0F7B74',  // Even Darker - Development
-                            '#4A5FFF',  // Blue - Public Sale
-                            '#6B7FFF'   // Light Blue - Liquidity
-                        ],
-                        borderColor: '#0A1128',
-                        borderWidth: 3,
-                        hoverOffset: 15
+                        data: tokenData.map(item => item.percentage),
+                        backgroundColor: tokenData.map(item => item.color),
+                        borderColor: 'rgba(10, 17, 40, 0.8)',
+                        borderWidth: 4,
+                        hoverOffset: 20,
+                        hoverBorderWidth: 5,
+                        hoverBorderColor: '#ffffff'
                     }]
+                };
+
+                const centerTextPlugin = {
+                    id: 'centerText',
+                    beforeDraw: function(chart) {
+                        const width = chart.width;
+                        const height = chart.height;
+                        const ctx = chart.ctx;
+                        ctx.restore();
+                        
+                        // Calculate font size based on chart size
+                        const baseFontSize = Math.min(width, height) / 20;
+                        
+                        // Draw main number
+                        ctx.font = `bold ${baseFontSize * 1.2}px 'Poppins', sans-serif`;
+                        ctx.textBaseline = "middle";
+                        ctx.fillStyle = "#ffffff";
+                        ctx.textAlign = "center";
+                        
+                        const text = "210,000,000,000";
+                        ctx.fillText(text, width / 2, height / 2 - baseFontSize * 0.5);
+                        
+                        // Draw subtitle
+                        ctx.font = `600 ${baseFontSize * 0.6}px 'Poppins', sans-serif`;
+                        ctx.fillStyle = "#2FF4E3";
+                        const subText = "Total Supply";
+                        ctx.fillText(subText, width / 2, height / 2 + baseFontSize * 0.8);
+                        
+                        ctx.save();
+                    }
                 };
 
                 const config = {
@@ -997,44 +1026,57 @@
                     options: {
                         responsive: true,
                         maintainAspectRatio: true,
+                        aspectRatio: 1,
+                        layout: {
+                            padding: {
+                                top: 20,
+                                bottom: 20,
+                                left: 10,
+                                right: 10
+                            }
+                        },
                         plugins: {
                             legend: {
-                                display: true,
-                                position: 'right',
-                                labels: {
-                                    color: '#ffffff',
-                                    font: {
-                                        size: 14,
-                                        family: "'Poppins', sans-serif"
-                                    },
-                                    padding: 15,
-                                    usePointStyle: true,
-                                    pointStyle: 'circle'
-                                }
+                                display: false
                             },
                             tooltip: {
-                                backgroundColor: 'rgba(27, 37, 79, 0.95)',
+                                enabled: true,
+                                backgroundColor: 'rgba(10, 17, 40, 0.95)',
                                 titleColor: '#2FF4E3',
+                                titleFont: {
+                                    size: 16,
+                                    weight: 'bold',
+                                    family: "'Poppins', sans-serif"
+                                },
                                 bodyColor: '#ffffff',
+                                bodyFont: {
+                                    size: 14,
+                                    family: "'Poppins', sans-serif"
+                                },
                                 borderColor: '#2FF4E3',
-                                borderWidth: 1,
-                                padding: 12,
+                                borderWidth: 2,
+                                padding: 16,
                                 displayColors: true,
+                                boxWidth: 15,
+                                boxHeight: 15,
+                                boxPadding: 8,
                                 callbacks: {
+                                    title: function(context) {
+                                        return tokenData[context[0].dataIndex].name;
+                                    },
                                     label: function(context) {
-                                        const label = context.label || '';
-                                        const value = context.parsed || 0;
-                                        const total = 210;
-                                        const amount = (value * total / 100).toFixed(1);
+                                        const item = tokenData[context.dataIndex];
                                         return [
-                                            label,
-                                            `${value}% (${amount}B tokens)`
+                                            `Percentage: ${item.percentage}%`,
+                                            `Amount: ${item.amount}B tokens`,
+                                            `Vesting: ${item.vesting}`
                                         ];
                                     }
                                 }
                             }
                         },
-                        cutout: '65%',
+                        cutout: '70%',
+                        radius: '90%',
                         animation: {
                             animateRotate: true,
                             animateScale: true,
@@ -1042,37 +1084,38 @@
                             easing: 'easeInOutQuart'
                         }
                     },
-                    plugins: [{
-                        id: 'centerText',
-                        beforeDraw: function(chart) {
-                            const width = chart.width;
-                            const height = chart.height;
-                            const ctx = chart.ctx;
-                            ctx.restore();
-                            
-                            const fontSize = (height / 160).toFixed(2);
-                            ctx.font = fontSize + "em 'Poppins', sans-serif";
-                            ctx.textBaseline = "middle";
-                            ctx.fillStyle = "#ffffff";
-                            
-                            const text = "210,000,000,000";
-                            const textX = Math.round((width - ctx.measureText(text).width) / 2);
-                            const textY = height / 2 - 10;
-                            ctx.fillText(text, textX, textY);
-                            
-                            ctx.font = (fontSize * 0.5) + "em 'Poppins', sans-serif";
-                            ctx.fillStyle = "#2FF4E3";
-                            const subText = "Total Supply";
-                            const subTextX = Math.round((width - ctx.measureText(subText).width) / 2);
-                            const subTextY = height / 2 + 20;
-                            ctx.fillText(subText, subTextX, subTextY);
-                            
-                            ctx.save();
-                        }
-                    }]
+                    plugins: [centerTextPlugin]
                 };
 
-                new Chart(ctx, config);
+                const chart = new Chart(ctx, config);
+
+                // Create custom legend
+                const container = document.getElementById('tokenDistributionContainer');
+                const legendHtml = `
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 30px; padding: 0 20px;">
+                        ${tokenData.map((item, index) => `
+                            <div style="display: flex; align-items: center; gap: 10px; padding: 12px; background: rgba(47, 244, 227, 0.05); border-radius: 8px; border-left: 4px solid ${item.color}; cursor: pointer; transition: all 0.3s ease;" 
+                                 onmouseover="this.style.background='rgba(47, 244, 227, 0.1)'; this.style.transform='translateX(5px)';" 
+                                 onmouseout="this.style.background='rgba(47, 244, 227, 0.05)'; this.style.transform='translateX(0)';"
+                                 onclick="toggleDataset(${index})">
+                                <div style="width: 12px; height: 12px; border-radius: 50%; background: ${item.color}; flex-shrink: 0;"></div>
+                                <div style="flex: 1;">
+                                    <div style="color: #ffffff; font-size: 14px; font-weight: 600; margin-bottom: 2px;">${item.name}</div>
+                                    <div style="color: #2FF4E3; font-size: 13px; font-weight: 500;">${item.percentage}%</div>
+                                    <div style="color: rgba(255, 255, 255, 0.6); font-size: 11px; margin-top: 2px;">${item.vesting}</div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+                container.insertAdjacentHTML('beforeend', legendHtml);
+
+                // Toggle dataset visibility
+                window.toggleDataset = function(index) {
+                    const meta = chart.getDatasetMeta(0);
+                    meta.data[index].hidden = !meta.data[index].hidden;
+                    chart.update();
+                };
             }
         });
     </script>
