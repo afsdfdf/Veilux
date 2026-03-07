@@ -1,0 +1,204 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Veilux App Console</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/app-console.css">
+</head>
+<body>
+  <canvas id="fxCanvas" class="fx-canvas" aria-hidden="true"></canvas>
+  <div class="app-shell" id="appShell">
+    <div class="mobile-backdrop" id="mobileBackdrop"></div>
+    <aside class="sidebar" id="sidebar">
+      <div class="brand">
+        <img src="assets/img/logo/logo.png" alt="Veilux" class="brand-logo">
+        <div class="brand-text">
+          <strong>Veilux</strong>
+          <span>Privacy Console</span>
+        </div>
+      </div>
+
+      <nav class="nav-list">
+        <a class="nav-item" href="index.html">Home</a>
+        <a class="nav-item is-active" href="app.html">Dashboard</a>
+        <a class="nav-item" href="whitepaper.html">Whitepaper</a>
+        <a class="nav-item" href="apps.html">Developer</a>
+        <a class="nav-item" href="contact.html">Contact</a>
+      </nav>
+
+      <section class="alert-stream card-like">
+        <div class="stream-head">
+          <h4>Alert Stream</h4>
+          <span id="alertCount">0</span>
+        </div>
+        <ul id="alertFeed" class="alert-feed"></ul>
+        <button class="btn btn-ghost btn-sm" id="clearAlertsBtn">Clear Alerts</button>
+      </section>
+
+      <div class="wallet-card">
+        <p>Connected Wallet</p>
+        <h4 id="walletAddress">0x56...5C81</h4>
+        <strong id="walletValue">$127,930</strong>
+      </div>
+      <button class="btn btn-ghost" id="quickStakeBtn">Quick Stake</button>
+      <button class="btn btn-primary" id="withdrawBtn">Withdraw</button>
+    </aside>
+
+    <main class="main-panel">
+      <header class="topbar">
+        <button class="icon-btn" id="mobileMenuBtn" aria-label="menu">☰</button>
+        <div class="title-wrap">
+          <h1>Privacy Runtime Dashboard</h1>
+          <p>FHE + TEE + ZKP Coordinated Runtime Status</p>
+        </div>
+        <div class="top-actions">
+          <span class="status-pill" id="runState">RUNNING</span>
+          <button class="icon-btn" id="mobileRefreshBtn" aria-label="refresh">⟳</button>
+          <button class="btn btn-ghost" id="replayBtn">Replay 5m</button>
+          <button class="btn btn-primary" id="boostBtn">Burst x2</button>
+        </div>
+      </header>
+
+      <section class="control-strip">
+        <div class="switch-group">
+          <label class="switch-label">Engine</label>
+          <button class="toggle is-on" id="engineToggle"><span>RUNNING</span></button>
+        </div>
+        <div class="switch-group">
+          <label class="switch-label">Transfer Guard</label>
+          <button class="toggle is-on" id="transferToggle"><span>ENABLED</span></button>
+        </div>
+        <div class="switch-group">
+          <label class="switch-label">Batch Window</label>
+          <input type="range" min="5" max="40" step="1" value="20" id="batchWindow">
+          <span class="value-tag" id="batchValue">20 min</span>
+        </div>
+        <div class="switch-group">
+          <label class="switch-label">Revalidation</label>
+          <input type="range" min="5" max="90" step="1" value="25" id="revalidationRange">
+          <span class="value-tag" id="revalidationValue">25%</span>
+        </div>
+      </section>
+
+      <section class="kpi-row">
+        <article class="kpi-card"><p>Success Rate</p><h3 id="kpiSuccess">93.2%</h3></article>
+        <article class="kpi-card"><p>TPS</p><h3 id="kpiTps">128</h3></article>
+        <article class="kpi-card"><p>Queue</p><h3 id="kpiQueue">36</h3></article>
+        <article class="kpi-card"><p>Latency</p><h3 id="kpiLatency">142 ms</h3></article>
+      </section>
+
+      <section class="module-tabs" id="moduleTabs">
+        <button class="is-active" data-module="disclosure">Selective Disclosure</button>
+        <button data-module="pipeline">Proof Pipeline</button>
+        <button data-module="zk">ZK Workflow</button>
+        <button data-module="governance">Governance</button>
+      </section>
+
+      <section class="content-grid module-filtering" id="moduleGrid">
+        <article class="card chart-card module-card" data-section="disclosure">
+          <div class="card-head">
+            <h2>Encrypted Computation</h2>
+            <div class="chart-tabs" id="chartTabs">
+              <button class="is-active" data-mode="mix">Mix</button>
+              <button data-mode="tps">TPS</button>
+              <button data-mode="latency">Latency</button>
+              <button data-mode="failure">Failure</button>
+            </div>
+          </div>
+          <canvas id="runtimeChart" width="1000" height="280"></canvas>
+          <div class="legend-row">
+            <span><i class="dot c1"></i>TEE</span>
+            <span><i class="dot c2"></i>FHE</span>
+            <span><i class="dot c3"></i>ZKP</span>
+          </div>
+        </article>
+
+        <article class="card queue-card module-card" data-section="zk">
+          <div class="card-head">
+            <h2>Transaction Queue</h2>
+            <span id="txCount">0 tx</span>
+          </div>
+          <div class="queue-toolbar">
+            <input id="txSearch" type="search" placeholder="Search tx hash / account">
+            <select id="txFilter">
+              <option value="all">All Status</option>
+              <option value="sealed">Sealed</option>
+              <option value="validating">Validating</option>
+              <option value="failed">Failed</option>
+            </select>
+          </div>
+          <div class="tx-table-wrap">
+            <table class="tx-table">
+              <thead>
+                <tr>
+                  <th>Hash</th>
+                  <th>Account</th>
+                  <th>Amount</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="txBody"></tbody>
+            </table>
+          </div>
+        </article>
+
+        <article class="card topology-card module-card" data-section="pipeline">
+          <div class="card-head">
+            <h2>Proof Pipeline Topology</h2>
+            <strong id="topologyState">Healthy</strong>
+          </div>
+          <div id="networkMap" class="network-map" aria-label="network topology"></div>
+          <div class="mini-stats">
+            <p>Nodes <strong id="nodeTotal">48</strong></p>
+            <p>Warning <strong id="nodeWarn">3</strong></p>
+            <p>Avg Latency <strong id="nodeLatency">21 ms</strong></p>
+          </div>
+        </article>
+
+        <article class="card action-card module-card" data-section="governance">
+          <h2>Governance</h2>
+          <p>TEE Process</p>
+          <div class="progress"><span id="teeProgress"></span></div>
+          <div class="action-row">
+            <button class="btn btn-ghost" id="syncBtn">Sync Batch</button>
+            <button class="btn btn-primary" id="manageBtn">Manage</button>
+          </div>
+          <p class="small-note" id="lastAction">Last action: none</p>
+        </article>
+      </section>
+
+      <section class="ops-grid">
+        <article class="card ops-card">
+          <div class="card-head"><h2>Scenario Lab</h2></div>
+          <div class="action-row three">
+            <button class="btn btn-ghost" id="injectFailBtn">Inject Failure</button>
+            <button class="btn btn-ghost" id="recoverBtn">Recover</button>
+            <button class="btn btn-primary" id="randomBurstBtn">Random Burst</button>
+          </div>
+          <p class="small-note">Hotkeys: 1-4 switch modules / Space toggle engine / R refresh</p>
+        </article>
+        <article class="card log-card">
+          <div class="card-head"><h2>Event Log</h2><button class="btn btn-ghost btn-sm" id="clearLogBtn">Clear</button></div>
+          <ul id="eventLog" class="event-log"></ul>
+        </article>
+      </section>
+    </main>
+  </div>
+
+  <aside class="drawer" id="txDrawer" aria-hidden="true">
+    <div class="drawer-head">
+      <h3>Transaction Detail</h3>
+      <button class="icon-btn" id="drawerClose">✕</button>
+    </div>
+    <div class="drawer-body" id="drawerBody"></div>
+  </aside>
+
+  <div class="toast" id="toast">Updated</div>
+  <script src="assets/js/app-console.js"></script>
+</body>
+</html>
+
