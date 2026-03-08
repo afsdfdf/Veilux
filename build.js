@@ -3,25 +3,28 @@
 const fs = require('fs');
 const path = require('path');
 
+const DIST_DIR = 'dist';
+
 // Create dist directory if it doesn't exist
-if (!fs.existsSync('dist')) {
-  fs.mkdirSync('dist');
+if (!fs.existsSync(DIST_DIR)) {
+  fs.mkdirSync(DIST_DIR);
 }
 
-// Copy HTML files
-const htmlFiles = ['index.html', 'whitepaper.html', 'apps.html', 'contact.html', 'login.html', 'dashboard.html'];
-htmlFiles.forEach(file => {
-  if (fs.existsSync(file)) {
-    fs.copyFileSync(file, path.join('dist', file));
-    console.log(`Copied ${file}`);
-  }
+// Copy all top-level HTML files so newly added pages are always included in builds
+const htmlFiles = fs
+  .readdirSync('.')
+  .filter((file) => file.endsWith('.html') && fs.statSync(file).isFile());
+
+htmlFiles.forEach((file) => {
+  fs.copyFileSync(file, path.join(DIST_DIR, file));
+  console.log(`Copied ${file}`);
 });
 
 // Copy other important files
 const otherFiles = ['robots.txt', 'sitemap.xml'];
-otherFiles.forEach(file => {
+otherFiles.forEach((file) => {
   if (fs.existsSync(file)) {
-    fs.copyFileSync(file, path.join('dist', file));
+    fs.copyFileSync(file, path.join(DIST_DIR, file));
     console.log(`Copied ${file}`);
   }
 });
@@ -29,17 +32,17 @@ otherFiles.forEach(file => {
 // Copy assets directory
 function copyDir(src, dest) {
   if (!fs.existsSync(src)) return;
-  
+
   if (!fs.existsSync(dest)) {
     fs.mkdirSync(dest, { recursive: true });
   }
-  
+
   const entries = fs.readdirSync(src, { withFileTypes: true });
-  
-  for (let entry of entries) {
+
+  for (const entry of entries) {
     const srcPath = path.join(src, entry.name);
     const destPath = path.join(dest, entry.name);
-    
+
     if (entry.isDirectory()) {
       copyDir(srcPath, destPath);
     } else {
@@ -49,7 +52,7 @@ function copyDir(src, dest) {
 }
 
 if (fs.existsSync('assets')) {
-  copyDir('assets', 'dist/assets');
+  copyDir('assets', path.join(DIST_DIR, 'assets'));
   console.log('Copied assets directory');
 }
 
