@@ -1,0 +1,153 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Veilux Private DEX</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/private-dex.css">
+</head>
+<body>
+  <div class="noise"></div>
+  <div class="aurora a1"></div>
+  <div class="aurora a2"></div>
+  <div class="nav-backdrop" id="navBackdrop"></div>
+
+  <header class="topbar">
+    <a class="brand" href="index.html">
+      <img src="assets/img/logo/logo.png" alt="Veilux">
+      <span>Veilux Private DEX</span>
+    </a>
+    <button class="menu-btn" id="menuToggle" aria-expanded="false" aria-controls="mainNav">Menu</button>
+    <nav id="mainNav">
+      <a href="index.html">Home</a>
+      <a href="apps.html">Applications</a>
+      <a href="whitepaper.html">Whitepaper</a>
+      <a href="app.html">Console</a>
+    </nav>
+  </header>
+
+  <main class="wrap">
+    <section class="hero glass">
+      <div class="hero-copy">
+        <p class="eyebrow">Confidential DeFi Infrastructure</p>
+        <h1>Private DEX</h1>
+        <p class="lead">Trade, provide liquidity, and settle positions with privacy-first cryptography aligned with Veilux whitepaper principles.</p>
+        <div class="feature-list">
+          <article>
+            <h3>Hidden Trading Amounts</h3>
+            <p>Trade any amount without revealing transaction values to the public.</p>
+          </article>
+          <article>
+            <h3>Anonymous Liquidity</h3>
+            <p>Provide liquidity while keeping your positions completely confidential.</p>
+          </article>
+          <article>
+            <h3>MEV Protection</h3>
+            <p>Eliminate front-running and sandwich attacks with encrypted transactions.</p>
+          </article>
+        </div>
+      </div>
+      <div class="hero-metrics">
+        <div class="metric"><span>Encrypted Volume (24h)</span><strong id="mVolume">$128.4M</strong></div>
+        <div class="metric"><span>Shielded Trades</span><strong id="mTrades">98,412</strong></div>
+        <div class="metric"><span>MEV Blocked</span><strong id="mMev">7,913</strong></div>
+      </div>
+    </section>
+
+    <section class="grid">
+      <article class="panel glass trade-panel">
+        <div class="panel-head">
+          <h2>Confidential Swap</h2>
+          <div class="tabs" id="orderTabs">
+            <button class="is-active" data-mode="swap">Swap</button>
+            <button data-mode="limit">Limit</button>
+          </div>
+        </div>
+
+        <div class="pair-row">
+          <div class="pair-head">
+            <label>Pair</label>
+            <div class="token-chip">
+              <img src="assets/img/logo/logo.png" alt="Veilux Token">
+              <span>Veilux Token</span>
+            </div>
+          </div>
+          <select id="pairSelect">
+            <option>Veilux Token / USDC</option>
+            <option>Veilux Token / ETH</option>
+            <option>Veilux Token / BTC</option>
+          </select>
+        </div>
+
+        <div class="amount-grid">
+          <label>From</label>
+          <input id="fromAmount" type="number" value="250" min="0" step="0.1">
+          <div class="quick-amounts" id="quickAmounts">
+            <button data-amount="100">100</button>
+            <button data-amount="250">250</button>
+            <button data-amount="500">500</button>
+            <button data-amount="1000">1000</button>
+          </div>
+          <label>To (Estimated)</label>
+          <input id="toAmount" type="text" value="1,023.50" readonly>
+        </div>
+
+        <div class="pair-row is-hidden" id="limitPriceRow">
+          <label>Limit Price</label>
+          <input id="limitPrice" type="number" value="4.094" min="0" step="0.0001">
+        </div>
+
+        <div class="slippage">
+          <div class="row"><span>Slippage Tolerance</span><strong id="slippageLabel">0.50%</strong></div>
+          <input id="slippage" type="range" min="0.1" max="3" step="0.1" value="0.5">
+        </div>
+
+        <div class="privacy-switches">
+          <button class="p-toggle is-on" id="hiddenAmountToggle">Hidden Amount: ON</button>
+          <button class="p-toggle is-on" id="anonLiqToggle">Anonymous LP: ON</button>
+          <button class="p-toggle is-on" id="mevToggle">MEV Shield: ON</button>
+        </div>
+
+        <div class="cta-row">
+          <button class="launch" id="launchBtn">Launch App</button>
+          <button class="ghost" id="simulateBtn">Simulate Trade</button>
+        </div>
+        <div class="trade-summary" id="tradeSummary">Estimated output and execution route will appear here.</div>
+      </article>
+
+      <article class="panel glass market-panel">
+        <div class="panel-head">
+          <h2>Encrypted Market Feed</h2>
+          <span class="chip" id="marketState">LIVE</span>
+        </div>
+        <canvas id="priceCanvas" width="860" height="260"></canvas>
+        <div class="depth" id="depthBars"></div>
+        <ul class="ticks" id="tickList"></ul>
+      </article>
+    </section>
+
+    <section class="use-cases glass">
+      <h2>Token Use Cases in Private DEX</h2>
+      <div class="use-grid">
+        <article><h3>Private Settlement Fees</h3><p>Pay Veilux token for encrypted matching, proof generation, and confidential settlement.</p></article>
+        <article><h3>Staking for Security</h3><p>Validators stake Veilux to secure encrypted orderflow and protect settlement integrity.</p></article>
+        <article><h3>Governance Routing</h3><p>Token holders vote on fee models, protected pools, and listing risk parameters in VeiluxDAO.</p></article>
+        <article><h3>Liquidity Incentives</h3><p>LP rewards distribute in Veilux token to bootstrap deep anonymous liquidity on strategic pairs.</p></article>
+      </div>
+    </section>
+  </main>
+
+  <div class="mobile-actions" id="mobileActions">
+    <button class="ghost" id="mobileSimulateBtn">Simulate</button>
+    <button class="launch" id="mobileLaunchBtn">Launch App</button>
+  </div>
+
+  <div class="toast" id="toast">Action completed</div>
+  <script src="assets/js/private-dex.js"></script>
+</body>
+</html>
+
+
