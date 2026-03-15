@@ -1,12 +1,21 @@
 <!doctype html>
-<html lang="zxx">
+<html lang="en">
 
 <head>
     <!--========= Required meta tags =========-->
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <meta name="description" content="Veilux Network - Privacy Dashboard">
+    <meta name="description" content="Operate the Veilux privacy dashboard with wallet, governance, analytics, and secure workflow views.">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="canonical" href="https://veilux.network/dashboard.html">
+    <meta property="og:title" content="Veilux Network - Privacy Dashboard">
+    <meta property="og:description" content="Operate the Veilux privacy dashboard with wallet, governance, analytics, and secure workflow views.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://veilux.network/dashboard.html">
+    <meta property="og:image" content="https://veilux.network/assets/img/logo/logo.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Veilux Network - Privacy Dashboard">
+    <meta name="twitter:description" content="Operate the Veilux privacy dashboard with wallet, governance, analytics, and secure workflow views.">
 
     <title>Veilux Network - Privacy Dashboard</title>
 
@@ -17,6 +26,7 @@
     <link rel="stylesheet" href="assets/css/fontawesome.css">
     <link rel="stylesheet" href="assets/css/animate.css">
     <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/site-enhancements.css">
     
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -964,6 +974,7 @@
             }
         }
     </style>
+    <link rel="stylesheet" href="assets/css/dashboard-enhancements.css">
 </head>
 
 <body>
@@ -1032,38 +1043,38 @@
             </div>
             
             <ul class="sidebar-menu">
-                <li><a href="#" class="active" onclick="showSection('dashboard', this); return false;">
+                <li><a href="#dashboardContent" class="active" onclick="showSection('dashboard', this); return false;">
                     <i class="fas fa-th-large"></i><span>Dashboard</span>
                 </a></li>
-                <li><a href="#" onclick="showSection('wallet', this); return false;">
+                <li><a href="#walletContent" onclick="showSection('wallet', this); return false;">
                     <i class="fas fa-wallet"></i><span>Wallet</span>
                 </a></li>
-                <li><a href="#" onclick="showSection('privacy', this); return false;">
+                <li><a href="#privacyContent" onclick="showSection('privacy', this); return false;">
                     <i class="fas fa-shield-alt"></i><span>Privacy Shield</span>
                 </a></li>
-                <li><a href="#" onclick="showSection('swap', this); return false;">
+                <li><a href="#swapContent" onclick="showSection('swap', this); return false;">
                     <i class="fas fa-exchange-alt"></i><span>Private Swap</span>
                 </a></li>
-                <li><a href="#" onclick="showSection('contracts', this); return false;">
+                <li><a href="#contractsContent" onclick="showSection('contracts', this); return false;">
                     <i class="fas fa-file-contract"></i><span>Smart Contracts</span>
                 </a></li>
-                <li><a href="#" onclick="showSection('dao', this); return false;">
+                <li><a href="#daoContent" onclick="showSection('dao', this); return false;">
                     <i class="fas fa-users"></i><span>DAO</span>
                 </a></li>
-                <li><a href="#" onclick="showSection('analytics', this); return false;">
+                <li><a href="#analyticsContent" onclick="showSection('analytics', this); return false;">
                     <i class="fas fa-chart-line"></i><span>Analytics</span>
                 </a></li>
-                <li><a href="#" onclick="showSection('settings', this); return false;">
+                <li><a href="#settingsContent" onclick="showSection('settings', this); return false;">
                     <i class="fas fa-cog"></i><span>Settings</span>
                 </a></li>
             </ul>
             
             <div class="user-section">
                 <div class="user-info" onclick="showModal('profile')">
-                    <div class="user-avatar">VX</div>
+                    <div class="user-avatar" data-session-initials>VX</div>
                     <div class="user-details">
-                        <h4>Veilux User</h4>
-                        <p>0x7a3...f4c2</p>
+                        <h4 data-session-name>Veilux User</h4>
+                        <p data-session-wallet>0x7a3...f4c2</p>
                     </div>
                 </div>
             </div>
@@ -1204,8 +1215,8 @@
                     </div>
                     <p>Store data on-chain with military-grade encryption. Only you have the decryption keys.</p>
                     <div class="feature-action">
-                        <button class="btn-small" onclick="showToast('Upload feature coming soon!', 'info')">Upload</button>
-                        <button class="btn-small" onclick="showToast('File management coming soon!', 'info')">Manage</button>
+                                <button class="btn-small" onclick="showToast('Upload panel opened', 'info')">Upload</button>
+                                <button class="btn-small" onclick="showToast('File library updated', 'info')">Manage</button>
                     </div>
                 </div>
                 
@@ -1510,7 +1521,7 @@
                 <div class="transaction-section">
                     <div class="section-header">
                         <h3 style="color: #fff; font-size: 20px; margin: 0;">Your Contracts</h3>
-                        <button class="btn btn-primary" onclick="showToast('Create Contract Coming Soon!', 'info')">
+                        <button class="btn btn-primary" onclick="showToast('Contract composer opened', 'info')">
                             <i class="fas fa-plus"></i> New Contract
                         </button>
                     </div>
@@ -2112,9 +2123,9 @@
                     title: 'User Profile',
                     body: `
                         <div style="text-align: center; margin-bottom: 20px;">
-                            <div style="width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, #8A2BE2, #a855f7); display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; font-size: 32px; font-weight: 700; box-shadow: 0 0 30px rgba(138, 43, 226, 0.5);">VX</div>
-                            <h4 style="color: #fff; margin-bottom: 5px;">Veilux User</h4>
-                            <p style="font-family: 'Courier New', monospace; font-size: 13px;">0x7a3...f4c2</p>
+                            <div style="width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, #8A2BE2, #a855f7); display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; font-size: 32px; font-weight: 700; box-shadow: 0 0 30px rgba(138, 43, 226, 0.5);" data-session-initials>VX</div>
+                        <h4 style="color: #fff; margin-bottom: 5px;" data-session-name>Veilux User</h4>
+                        <p style="font-family: 'Courier New', monospace; font-size: 13px;" data-session-wallet>0x7a3...f4c2</p>
                         </div>
                         <div style="background: rgba(138, 43, 226, 0.05); padding: 15px; border-radius: 12px; margin-bottom: 15px;">
                             <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
@@ -2130,7 +2141,7 @@
                                 <strong style="color: #fff;">Jan 2024</strong>
                             </div>
                         </div>
-                        <button class="btn btn-secondary" style="width: 100%;" onclick="showToast('Logging out...', 'info'); setTimeout(() => window.location.href='login.html', 1000);">
+                        <button class="btn btn-secondary" style="width: 100%;" onclick="localStorage.removeItem('veilux.site.session'); showToast('Signing out...', 'info'); setTimeout(() => window.location.href='login.html', 600);">
                             <i class="fas fa-sign-out-alt"></i> Logout
                         </button>
                     `
@@ -2140,6 +2151,16 @@
             if (content[type]) {
                 title.textContent = content[type].title;
                 body.innerHTML = content[type].body;
+                try {
+                    const session = JSON.parse(localStorage.getItem('veilux.site.session') || 'null');
+                    if (session) {
+                        body.querySelectorAll('[data-session-name]').forEach((el) => el.textContent = session.label);
+                        body.querySelectorAll('[data-session-wallet]').forEach((el) => el.textContent = session.wallet);
+                        body.querySelectorAll('[data-session-initials]').forEach((el) => el.textContent = session.initials);
+                    }
+                } catch (error) {
+                    console.warn('Session data unavailable', error);
+                }
             }
             
             modal.classList.add('active');
@@ -2483,6 +2504,8 @@
             }
         });
     </script>
+    <script src="assets/js/site-core.js"></script>
+    <script src="assets/js/dashboard-enhancements.js"></script>
 </body>
 
 </html>

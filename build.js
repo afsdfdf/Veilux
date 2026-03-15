@@ -3,13 +3,15 @@
 const fs = require('fs');
 const path = require('path');
 
-// Create dist directory if it doesn't exist
-if (!fs.existsSync('dist')) {
-  fs.mkdirSync('dist');
+// Recreate dist so removed pages do not linger between builds
+if (fs.existsSync('dist')) {
+  fs.rmSync('dist', { recursive: true, force: true });
 }
 
-// Copy HTML files
-const htmlFiles = ['index.html', 'whitepaper.html', 'apps.html', 'contact.html', 'login.html', 'dashboard.html'];
+fs.mkdirSync('dist');
+
+// Copy all HTML files in the project root
+const htmlFiles = fs.readdirSync('.').filter((file) => file.endsWith('.html'));
 htmlFiles.forEach(file => {
   if (fs.existsSync(file)) {
     fs.copyFileSync(file, path.join('dist', file));
